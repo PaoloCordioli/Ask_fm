@@ -41,7 +41,6 @@ const validateToken = (req: any, res: any): boolean => { // funzione che control
 }
 
 server.get('/', async (req, res) => {
-    const database = await MongoDB.get_instance()
     res.status(200).send({
         ok: true,
         data: {
@@ -117,7 +116,7 @@ server.post('/users/:username', async (req, res) => { // permette il login e gen
             })
             return
         }
-         // se non sono uguali viene mandato un messaggio di errore
+        // se non sono uguali viene mandato un messaggio di errore
         res.status(404).send({
             ok: false,
             data: {
@@ -135,6 +134,29 @@ server.post('/users/:username', async (req, res) => { // permette il login e gen
             err: 'error with username'
         }
     })
+})
+
+server.get('/users/:username', async (req, res) => { // verifica la presenza di un utente
+    const { username } = req.params
+
+    const database = await MongoDB.get_instance()
+    const user = await database.get_user_by_name(username)
+
+    if (user) {
+        res.status(200).send({
+            ok: true,
+            data: {
+                "id_user": user._id
+            }
+        })
+    } else {
+        res.status(404).send({
+            ok: false,
+            data: {
+                err: "User not found"
+            }
+        })
+    }
 })
 
 module.exports = server
