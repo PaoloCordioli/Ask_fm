@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "name": "auth-typescript",
+  "target" : "src/server.ts",
+  "env" : {
+    "MONGO_URI" : "@mongo_uri"
+  },
+  "builds": [
+    {
+      "src": "src/server.ts",
+      "use": "@now/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "methods" : ["GET", "POST"],
+      "dest": "src/server.ts"
+    }
+  ]
+}

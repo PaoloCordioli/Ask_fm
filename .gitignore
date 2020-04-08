@@ -1,2 +1,4 @@
 Backend/Auth/node_modules/
 Backend/Questions/node_modules/
+Backend/Auth/.env
+Backend/Questions/.env
