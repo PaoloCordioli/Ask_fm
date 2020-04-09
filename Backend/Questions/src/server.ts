@@ -26,22 +26,22 @@ server.get('/questions', async (req, res) => { // ritorno tutte le domande
     const authenticated = await authentication(token)
 
     if (!authenticated) {
-        res.status(404).send({
+        res.status(401).send({
             ok: false,
             data: {
-                err: "Token error"
+                err: "Unauthorized"
             }
         })
         return
     }
 
     const database = await MongoDB.get_instance()
-    const result = await database.get()
+    const questions = await database.get()
 
     res.status(200).send({
         ok: true,
         data: {
-            result
+            questions
         }
     })
 })
@@ -51,10 +51,10 @@ server.get('/questions/:username', async (req, res) => { // ritorno tutte le dom
     const authenticated = await authentication(token)
 
     if (!authenticated) {
-        res.status(404).send({
+        res.status(401).send({
             ok: false,
             data: {
-                err: "Token error"
+                err: "Unauthorized"
             }
         })
         return
@@ -78,17 +78,17 @@ server.post('/questions', async (req, res) => { //crea una domanda
     const authenticated = await authentication(token)
 
     if (!authenticated) {
-        res.status(404).send({
+        res.status(401).send({
             ok: false,
             data: {
-                err: "Token error"
+                err: "Unauthorized"
             }
         })
         return
     }
 
-    const database = await MongoDB.get_instance()
     const { question } = req.body
+    const database = await MongoDB.get_instance()
     database.add_question(question)
 
     res.status(200).send({
@@ -97,8 +97,29 @@ server.post('/questions', async (req, res) => { //crea una domanda
     })
 });
 
-/*server.listen(3000, function () {
-    console.log('Example app listening on port 3000!');
-});*/
+server.put('/question', async (req, res) => { // aggiunge la risposta ad una domanda
+    const token = req.headers['x-access-token']
+    const authenticated = await authentication(token)
+
+    if (!authenticated) {
+        res.status(401).send({
+            ok: false,
+            data: {
+                err: "Unauthorized"
+            }
+        })
+        return
+    }
+
+    const {username, author, question, answer} = req.body
+
+    const database = await MongoDB.get_instance()
+    database.update(username, author, question, answer)
+
+    res.status(200).send({
+        ok: true,
+        data: {}
+    })
+})
 
 module.exports = server

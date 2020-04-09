@@ -14,7 +14,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "methods" : ["GET", "POST"],
+      "methods" : ["GET", "PUT", "POST"],
       "dest": "src/server.ts"
     }
   ]

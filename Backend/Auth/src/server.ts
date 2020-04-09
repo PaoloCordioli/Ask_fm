@@ -16,7 +16,7 @@ server.use(morgan('dev'))
 const validateToken = (req: any, res: any): boolean => { // funzione che controlla la validità del token
     const token = req.headers['x-access-token']
     if (!token) {
-        res.status(404).send({
+        res.status(401).send({
             ok: false,
             data: {
                 err: "unauthorized"
@@ -27,7 +27,7 @@ const validateToken = (req: any, res: any): boolean => { // funzione che control
 
     jwt.verify(token, process.env.SECRET, (err: any, decoded: any) => {
         if (err) {
-            res.status(404).send({
+            res.status(401).send({
                 ok: false,
                 data: {
                     err: "token error"
@@ -69,7 +69,7 @@ server.post('/users', async (req, res) => { // crea un utente
     // se l'utente esiste già viene mandato un messaggio di errore
     const user = await database.get_user_by_name(username)
     if (user) {
-        res.status(404).send({
+        res.status(403).send({
             ok: false,
             data: {
                 err: "user alredy exists"
@@ -85,7 +85,7 @@ server.post('/users', async (req, res) => { // crea un utente
         hashedPassword
     }
 
-    await database.add_user(newUser)
+    database.add_user(newUser)
 
     res.status(200).send({
         ok: true,
@@ -117,7 +117,7 @@ server.post('/users/:username', async (req, res) => { // permette il login e gen
             return
         }
         // se non sono uguali viene mandato un messaggio di errore
-        res.status(404).send({
+        res.status(401).send({
             ok: false,
             data: {
                 token: '',
@@ -127,7 +127,7 @@ server.post('/users/:username', async (req, res) => { // permette il login e gen
         return
     }
     // se l'utente non esiste viene mandato un messaggio di errore
-    else res.status(404).send({
+    else res.status(401).send({
         ok: false,
         data: {
             token: '',

@@ -35,4 +35,8 @@ export class MongoDB {
         const questions = await this.collection.find({ username : username }).toArray()
         return questions
     }
+
+    public update (username : string,author : string, question : string, answer : string) : void {
+        this.collection.updateOne({username : username, author : author, question : question}, {$set : {answer : answer}})
+    }
 }
