@@ -31,8 +31,8 @@ export class MongoDB {
         this.collection.insertOne(question)
     }
 
-    public async get_questions_by_username(id_user : string): Promise<any> {
-        const questions = await this.collection.find({ id_user : id_user }).toArray()
+    public async get_questions_by_username(username : string): Promise<any> {
+        const questions = await this.collection.find({ username : username }).toArray()
         return questions
     }
 }

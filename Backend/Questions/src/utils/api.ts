@@ -1,7 +1,17 @@
 import fetch from 'node-fetch'
 
-export const get_id_username = async (username: string) => {
-    const get = await fetch(`https://ask-auth.now.sh/users/${username}`)
+export const authentication = async (token : any) : Promise<boolean> => {
+    const get = await fetch("https://ask-auth.now.sh/authentication", {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'x-access-token': token,
+        }
+    })
+
     const result = await get.json()
-    return result.data.id_user
+    if(!result.ok)
+        return false
+    return true
 }

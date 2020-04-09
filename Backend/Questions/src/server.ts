@@ -3,7 +3,7 @@ import morgan from 'morgan'
 import helmet from 'helmet'
 import cors from 'cors'
 import { MongoDB } from './utils/mongoDB'
-import { get_id_username } from './utils/api'
+import { authentication } from './utils/api'
 
 const server = express();
 server.use(cors())
@@ -22,8 +22,22 @@ server.get('/', async (req, res) => {
 })
 
 server.get('/questions', async (req, res) => { // ritorno tutte le domande
+    const token = req.headers['x-access-token']
+    const authenticated = await authentication(token)
+
+    if (!authenticated) {
+        res.status(404).send({
+            ok: false,
+            data: {
+                err: "Token error"
+            }
+        })
+        return
+    }
+
     const database = await MongoDB.get_instance()
     const result = await database.get()
+
     res.status(200).send({
         ok: true,
         data: {
@@ -33,12 +47,23 @@ server.get('/questions', async (req, res) => { // ritorno tutte le domande
 })
 
 server.get('/questions/:username', async (req, res) => { // ritorno tutte le domande di un utente
+    const token = req.headers['x-access-token']
+    const authenticated = await authentication(token)
+
+    if (!authenticated) {
+        res.status(404).send({
+            ok: false,
+            data: {
+                err: "Token error"
+            }
+        })
+        return
+    }
+
     const { username } = req.params
 
-    const id_user = await get_id_username(username)
-
     const database = await MongoDB.get_instance()
-    const questions = await database.get_questions_by_username(id_user)
+    const questions = await database.get_questions_by_username(username)
 
     res.status(200).send({
         ok: true,
@@ -49,20 +74,22 @@ server.get('/questions/:username', async (req, res) => { // ritorno tutte le dom
 })
 
 server.post('/questions', async (req, res) => { //crea una domanda
-    const database = await MongoDB.get_instance()
+    const token = req.headers['x-access-token']
+    const authenticated = await authentication(token)
 
-    const { question, username, author } = req.body
-
-    const id_user = await get_id_username(username)
-    const id_author = await get_id_username(author)
-
-    const question_object = {
-        id_author,
-        question,
-        id_user
+    if (!authenticated) {
+        res.status(404).send({
+            ok: false,
+            data: {
+                err: "Token error"
+            }
+        })
+        return
     }
 
-    database.add_question(question_object)
+    const database = await MongoDB.get_instance()
+    const { question } = req.body
+    database.add_question(question)
 
     res.status(200).send({
         ok: true,
