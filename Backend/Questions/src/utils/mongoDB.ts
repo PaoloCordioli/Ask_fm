@@ -9,12 +9,12 @@ export class MongoDB {
     private constructor() {
     }
 
-    private async init(url: string, db_name: string, db_collection: string) {
+    private async init(url: string, db_name: string, db_collection: string) : Promise<void> {
         const client = await MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
         this.collection = client.db(db_name).collection(db_collection)
     }
 
-    public static async get_instance() {
+    public static async get_instance() : Promise<MongoDB> {
         if (!MongoDB.instance) {
             MongoDB.instance = new MongoDB()
             await MongoDB.instance.init(process.env.MONGO_URI, "Ask", "Questions")
@@ -22,7 +22,7 @@ export class MongoDB {
         return MongoDB.instance
     }
 
-    public async get(): Promise<any> {
+    public async get(): Promise<Array<any>> {
         const questions = await this.collection.find().toArray()
         return questions
     }

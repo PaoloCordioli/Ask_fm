@@ -136,27 +136,4 @@ server.post('/users/:username', async (req, res) => { // permette il login e gen
     })
 })
 
-server.get('/users/:username', async (req, res) => { // verifica la presenza di un utente
-    const { username } = req.params
-
-    const database = await MongoDB.get_instance()
-    const user = await database.get_user_by_name(username)
-
-    if (user) {
-        res.status(200).send({
-            ok: true,
-            data: {
-                "id_user": user._id
-            }
-        })
-    } else {
-        res.status(404).send({
-            ok: false,
-            data: {
-                err: "User not found"
-            }
-        })
-    }
-})
-
 module.exports = server

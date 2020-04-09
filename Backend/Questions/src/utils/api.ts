@@ -11,6 +11,7 @@ export const authentication = async (token : any) : Promise<boolean> => {
     })
 
     const result = await get.json()
+    
     if(!result.ok)
         return false
     return true
