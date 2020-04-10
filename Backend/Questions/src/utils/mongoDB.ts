@@ -1,4 +1,4 @@
-import { MongoClient, Collection } from 'mongodb'
+import { MongoClient, Collection, ObjectID } from 'mongodb'
 require('dotenv').config()
 
 export class MongoDB {
@@ -36,7 +36,8 @@ export class MongoDB {
         return questions
     }
 
-    public update (username : string,author : string, question : string, answer : string) : void {
-        this.collection.updateOne({username : username, author : author, question : question}, {$set : {answer : answer}})
+    public update (id : string, answer : string) : void {
+        const _id = new ObjectID(id)
+        this.collection.updateOne({_id : _id }, {$set : {answer : answer}})
     }
 }

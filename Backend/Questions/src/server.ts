@@ -97,7 +97,7 @@ server.post('/questions', async (req, res) => { //crea una domanda
     })
 });
 
-server.put('/question', async (req, res) => { // aggiunge la risposta ad una domanda
+server.put('/questions/:id', async (req, res) => { // aggiunge la risposta ad una domanda
     const token = req.headers['x-access-token']
     const authenticated = await authentication(token)
 
@@ -111,10 +111,11 @@ server.put('/question', async (req, res) => { // aggiunge la risposta ad una dom
         return
     }
 
-    const {username, author, question, answer} = req.body
+    const {answer} = req.body
+    const id =  req.params.id
 
     const database = await MongoDB.get_instance()
-    database.update(username, author, question, answer)
+    database.update(id, answer)
 
     res.status(200).send({
         ok: true,
