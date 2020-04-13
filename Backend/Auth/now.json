@@ -1,10 +1,10 @@
 {
   "version": 2,
   "name": "ask-auth",
-  "target" : "src/server.ts",
-  "env" : {
-    "MONGO_URI" : "@mongo_uri",
-    "SECRET" : "@secret"
+  "target": "src/server.ts",
+  "env": {
+    "MONGO_URI": "@mongo_uri",
+    "SECRET": "@secret"
   },
   "builds": [
     {
@@ -15,7 +15,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "methods" : ["GET", "POST"],
+      "methods": ["GET", "POST"],
       "dest": "src/server.ts"
     }
   ]

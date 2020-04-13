@@ -1,8 +1,9 @@
 .home {
     width: 100%;
-    height: 722px;
-    background: url('../Images/home.png') no-repeat;   
-    background-attachment: scroll;
+    height: 722.4px; 
+    background-image: url('../Images/home.png');
+    background-position: center;
+    background-repeat: no-repeat;
     background-size: cover;
 }
 

@@ -12,7 +12,6 @@ server.use(express.json())
 server.use(helmet())
 server.use(morgan('dev'))
 
-
 const validateToken = (req: any, res: any): boolean => { // funzione che controlla la validità del token
     const token = req.headers['x-access-token']
     if (!token) {
