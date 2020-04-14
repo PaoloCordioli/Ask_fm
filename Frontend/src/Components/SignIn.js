@@ -18,7 +18,7 @@ function SignIn() {
             return
         }
 
-        let response = await fetch(`https://ask-auth.paolocordioli.now.sh/users/${username.current.value}`, {
+        let response = await fetch(`https://ask-auth.now.sh/users/${username.current.value}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

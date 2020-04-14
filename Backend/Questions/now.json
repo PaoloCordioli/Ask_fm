@@ -13,9 +13,16 @@
   ],
   "routes": [
     {
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Methods": "PUT, GET, POST, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+      },
       "src": "/(.*)",
-      "methods" : ["GET", "PUT", "POST"],
-      "dest": "src/server.ts"
+      "methods" : ["GET", "PUT", "POST","OPTIONS"],
+      "dest": "src/server.ts",
+      "continue": true
     }
   ]
 }
