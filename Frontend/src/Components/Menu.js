@@ -1,18 +1,29 @@
 import React from 'react';
 import { Menu } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
-function Menu() {
+function MenuBar() {
+
+    const history = useHistory()
+
+    const logout = () => {
+        localStorage.setItem('sign', false)
+        localStorage.setItem('token',"")
+        localStorage.setItem('username', "")
+
+        history.push('/signIn')
+    }
+
     return (
         <div>
             <Menu secondary>
-                <Menu.Item as={Link} to="/home" name='home'/>
+                <Menu.Item as={Link} to="/" name='home'/>
                 <Menu.Menu position='right'>
-                    <Menu.Item as={Link} to="/signin" name='logout'/>
+                    <Menu.Item onClick={logout} name='logout'/>
                 </Menu.Menu>
             </Menu>
         </div>
     )
 }
 
-export default Menu
+export default MenuBar

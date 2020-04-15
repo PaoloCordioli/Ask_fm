@@ -1,15 +1,15 @@
-.signIn-container {
-    padding: 10vh;
+.signUp-container {
+    padding: 5vh;
 }
 
-.signIn-app {
+.signUp-app {
     border-style: solid;
     border-radius: 15px;
     border-color: white;
     background-color: black;
 }
 
-.signIn-content{
+.signUp-content{
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -18,15 +18,15 @@
     padding: 40px;
 }
 
-.signIn-text{
+.signUp-text{
     font-size: 12.5px;
 }
 
-.signIn-link{
+.signUp-link{
     color: red;
 }
 
-.signIn-form {
+.signUp-form {
     border-style: solid;
     border-radius: 15px;
     border-color: white;

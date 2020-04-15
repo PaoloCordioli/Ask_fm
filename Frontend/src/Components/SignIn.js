@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Container, Form, Button, Image } from 'semantic-ui-react';
+import { Link, useHistory, Redirect } from 'react-router-dom'
 import img from '../Images/title.png'
 import './SignIn.css'
 
@@ -10,6 +11,8 @@ function SignIn() {
     const username = useRef("")
     const password = useRef("")
 
+    const history = useHistory()
+
     const signIn = async (event) => {
         event.preventDefault()
 
@@ -18,7 +21,7 @@ function SignIn() {
             return
         }
 
-        let response = await fetch(`https://ask-auth.now.sh/users/${username.current.value}`, {
+        const response = await fetch(`https://ask-auth.now.sh/users/${username.current.value}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -27,34 +30,50 @@ function SignIn() {
             body: JSON.stringify({ password: password.current.value })
         }).then((res) => res.json())
 
-        console.log(response)
+        if (response.ok === true) {
+            localStorage.setItem('sign', true)
+            localStorage.setItem('token', response.data.token)
+            localStorage.setItem('username', username.current.value)
 
-        /*if (response.ok === true) {
-            console.log("loggato")
+            history.push('/')
         }
-        else setError("Password o username errati!")*/
+        else setError("Password o username errati!")
+    }
+
+
+    const sign = (localStorage.getItem('sign') === "true")
+
+    if (sign) {
+        return (
+            <Redirect to="/" />
+        )
     }
 
     return (
-        <div className="background">
-            <div className="title">
-                <Image src={img} centered />
+        <Container className="signIn-container">
+            <div className="signIn-app">
+                <div className="signIn-content">
+                    <Image src={img} centered />
+                    <Container className="signIn-form">
+                        <h1>Accedi</h1>
+                        <p className="signIn-text"> Non hai ancora un account?
+                            <Link to="/signUp" className="signIn-link" > Registrati</Link> </p>
+                        <h3>{error}</h3>
+                        <Form>
+                            <Form.Field>
+                                <label>Username</label>
+                                <input placeholder='Username' ref={username} />
+                            </Form.Field>
+                            <Form.Field>
+                                <label>Password</label>
+                                <input placeholder='Password' type="password" ref={password} />
+                            </Form.Field>
+                            <Button type='submit' color="youtube" onClick={signIn}>Sign In</Button>
+                        </Form>
+                    </Container>
+                </div>
             </div>
-            <Container className="form">
-                <h3 className="error">{error}</h3>
-                <Form>
-                    <Form.Field>
-                        <label>Username</label>
-                        <input placeholder='Username' ref={username} />
-                    </Form.Field>
-                    <Form.Field>
-                        <label>Password</label>
-                        <input placeholder='Password' type="password" ref={password} />
-                    </Form.Field>
-                    <Button type='submit' color="youtube" onClick={signIn}>Sign In</Button>
-                </Form>
-            </Container>
-        </div>
+        </Container>
     )
 }
 
