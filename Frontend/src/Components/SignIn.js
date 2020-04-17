@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { Container, Form, Button, Image } from 'semantic-ui-react';
 import { Link, useHistory, Redirect } from 'react-router-dom'
+import { getItem, setItem } from '../Utils/StorageHelper'
 import img from '../Images/title.png'
-import './SignIn.css'
+import './Css/SignIn.css'
 
 function SignIn() {
 
@@ -31,9 +32,10 @@ function SignIn() {
         }).then((res) => res.json())
 
         if (response.ok === true) {
-            localStorage.setItem('sign', true)
-            localStorage.setItem('token', response.data.token)
-            localStorage.setItem('username', username.current.value)
+            setItem('sign', true)
+            setItem('token', response.data.token)
+            setItem('username', username.current.value)
+            setItem('password', password.current.value)
 
             history.push('/')
         }
@@ -41,7 +43,7 @@ function SignIn() {
     }
 
 
-    const sign = (localStorage.getItem('sign') === "true")
+    const sign = (getItem('sign') === "true")
 
     if (sign) {
         return (

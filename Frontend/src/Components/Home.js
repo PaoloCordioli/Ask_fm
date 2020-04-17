@@ -1,13 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Image, Container } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import { getItem, setItem } from '../Utils/StorageHelper'
 import Menu from './Menu'
 import img from '../Images/ask.png'
-import './Home.css'
+import './Css/Home.css'
 
 function Home() {
 
-    const sign = (localStorage.getItem('sign') === "true")
+    const sign = (getItem('sign') === "true")
+
+    useEffect(() => {
+        if (!sign)
+            return
+
+        fetch(`https://ask-auth.now.sh/users/${getItem('username')}`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ password: getItem('password') })
+        }).then((res) => res.json())
+            .then((res) => setItem('token', res.data.token))
+    });
 
     if (sign) {
         return (

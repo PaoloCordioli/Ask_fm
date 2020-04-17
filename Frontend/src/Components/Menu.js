@@ -1,15 +1,17 @@
 import React from 'react';
 import { Menu } from 'semantic-ui-react'
 import { Link, useHistory } from 'react-router-dom'
+import { setItem } from '../Utils/StorageHelper'
 
 function MenuBar() {
 
     const history = useHistory()
 
     const logout = () => {
-        localStorage.setItem('sign', false)
-        localStorage.setItem('token',"")
-        localStorage.setItem('username', "")
+        setItem('sign', false)
+        setItem('token',"")
+        setItem('username', "")
+        setItem('password', "")
 
         history.push('/signIn')
     }

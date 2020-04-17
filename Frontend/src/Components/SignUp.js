@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { Container, Form, Button, Image } from 'semantic-ui-react';
 import { Link, useHistory, Redirect } from 'react-router-dom'
+import { getItem } from '../Utils/StorageHelper'
 import img from '../Images/title.png'
-import './SignUp.css'
+import './Css/SignUp.css'
 
 function SignUp() {
 
@@ -43,7 +44,7 @@ function SignUp() {
     }
 
 
-    const sign = (localStorage.getItem('sign') === "true")
+    const sign = (getItem('sign') === "true")
 
     if (sign) {
         return (
