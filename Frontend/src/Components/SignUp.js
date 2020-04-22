@@ -76,7 +76,7 @@ function SignUp() {
                                 <input placeholder='Password' type="password" ref={rePassword} />
                             </Form.Field>
 
-                            <Button type='submit' color="youtube" onClick={signUp}>Sign Up</Button>
+                            <Button type='submit' color="youtube" onClick={signUp}> Registrati </Button>
                         </Form>
                     </Container>
                 </div>

@@ -70,7 +70,7 @@ function SignIn() {
                                 <label>Password</label>
                                 <input placeholder='Password' type="password" ref={password} />
                             </Form.Field>
-                            <Button type='submit' color="youtube" onClick={signIn}>Sign In</Button>
+                            <Button type='submit' color="youtube" onClick={signIn}>Accedi</Button>
                         </Form>
                     </Container>
                 </div>

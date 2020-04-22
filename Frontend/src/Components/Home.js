@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Button, Image, Container } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { getItem, setItem } from '../Utils/StorageHelper'
-import Menu from './Menu'
+import Dashboard from '../Components/Dashboard'
 import img from '../Images/ask.png'
 import './Css/Home.css'
 
@@ -28,8 +28,7 @@ function Home() {
     if (sign) {
         return (
             <div>
-                <Menu />
-                <div>Loggato</div>
+                <Dashboard />
             </div>
         )
     }
