@@ -20,7 +20,12 @@
         "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
       },
       "src": "/(.*)",
-      "methods" : ["GET", "PUT", "POST","OPTIONS"],
+      "methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "OPTIONS"
+      ],
       "dest": "src/server.ts",
       "continue": true
     }
