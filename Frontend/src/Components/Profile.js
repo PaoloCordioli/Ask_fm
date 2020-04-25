@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Redirect } from 'react-router-dom'
 import { Container } from 'semantic-ui-react';
 import { getItem } from '../Utils/StorageHelper'
+import { getQuestionsUser } from '../Utils/Api';
 import Menu from './Menu'
-import Questions from '../Components/Questions'
+import Questions from './Questions'
 
 function Profile() {
 
@@ -12,17 +13,7 @@ function Profile() {
     const [questions, setQuestions] = useState([])
 
     useEffect(() => {
-
-        fetch(`https://ask-question.now.sh/questions/${username}`, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'x-access-token': getItem('token')
-            },
-        }).then((res) => res.json())
-            .then((res) => setQuestions(res.data.questions))
-
+        getQuestionsUser(username).then((res) => setQuestions(res))
     }, [username]);
 
 

@@ -3,6 +3,7 @@ import { Container, Form, Button, Image } from 'semantic-ui-react';
 import { Link, useHistory, Redirect } from 'react-router-dom'
 import { getItem, setItem } from '../Utils/StorageHelper'
 import img from '../Images/title.png'
+import { checkLogin } from '../Utils/Api';
 import './Css/SignIn.css'
 
 function SignIn() {
@@ -22,14 +23,7 @@ function SignIn() {
             return
         }
 
-        const response = await fetch(`https://ask-auth.now.sh/users/${username.current.value}`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ password: password.current.value })
-        }).then((res) => res.json())
+        const response = await checkLogin(username.current.value,password.current.value)
 
         if (response.ok === true) {
             setItem('sign', true)
@@ -42,6 +36,9 @@ function SignIn() {
         else setError("Password o username errati!")
     }
 
+    const removeError =  () => {
+        setError('')
+    }
 
     const sign = (getItem('sign') === "true")
 
@@ -64,11 +61,11 @@ function SignIn() {
                         <Form>
                             <Form.Field>
                                 <label>Username</label>
-                                <input placeholder='Username' ref={username} />
+                                <input placeholder='Username' ref={username}  onFocus={removeError} />
                             </Form.Field>
                             <Form.Field>
                                 <label>Password</label>
-                                <input placeholder='Password' type="password" ref={password} />
+                                <input placeholder='Password' type="password" ref={password} onFocus={removeError} />
                             </Form.Field>
                             <Button type='submit' color="youtube" onClick={signIn}>Accedi</Button>
                         </Form>

@@ -3,6 +3,7 @@ import { Container, Form, Button, Image } from 'semantic-ui-react';
 import { Link, useHistory, Redirect } from 'react-router-dom'
 import { getItem } from '../Utils/StorageHelper'
 import img from '../Images/title.png'
+import { checkRegistration } from '../Utils/Api';
 import './Css/SignUp.css'
 
 function SignUp() {
@@ -12,7 +13,7 @@ function SignUp() {
     const password = useRef("")
     const rePassword = useRef("")
 
-    const history  = useHistory() 
+    const history = useHistory()
 
     const signUp = async (event) => {
         event.preventDefault()
@@ -26,14 +27,7 @@ function SignUp() {
             return
         }
 
-        const result = await fetch("https://ask-auth.now.sh/users", {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username: username.current.value, password: password.current.value })
-        }).then((res) => res.json())
+        const result = await checkRegistration(username.current.value, password.current.value)
 
         if (result.ok === false) {
             setError("Username esistente, prova a cambiarlo!")
@@ -43,6 +37,9 @@ function SignUp() {
         history.push('/signIn')
     }
 
+    const removeError =  () => {
+        setError('')
+    }
 
     const sign = (getItem('sign') === "true")
 
@@ -65,17 +62,16 @@ function SignUp() {
                         <Form>
                             <Form.Field>
                                 <label>Username</label>
-                                <input placeholder='Username' ref={username} />
+                                <input placeholder='Username' ref={username} onFocus={removeError} />
                             </Form.Field>
                             <Form.Field>
                                 <label>Password</label>
-                                <input placeholder='Password' type="password" ref={password} />
+                                <input placeholder='Password' type="password" ref={password} onFocus={removeError} />
                             </Form.Field>
                             <Form.Field>
                                 <label>Password</label>
-                                <input placeholder='Password' type="password" ref={rePassword} />
+                                <input placeholder='Password' type="password" ref={rePassword} onFocus={removeError} />
                             </Form.Field>
-
                             <Button type='submit' color="youtube" onClick={signUp}> Registrati </Button>
                         </Form>
                     </Container>

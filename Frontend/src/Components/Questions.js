@@ -5,7 +5,6 @@ import './Css/Questions.css'
 
 function Questions(props) {
 
-
     const getPath = (username) => {
         return `/ask/${username}`
     }
@@ -66,10 +65,6 @@ function Questions(props) {
                 </Card.Description>
             </Card.Content>
         </Card >
-
-
-
-
     }
 
     let questions = props.questions.map(createCard)
