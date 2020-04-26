@@ -9,6 +9,7 @@ function Questions(props) {
     const [errorAnswer, setErrorAnswer] = useState("")
 
     const getPath = (username) => {
+        username = username.toLowerCase()
         return `/ask/${username}`
     }
 
@@ -73,11 +74,11 @@ function Questions(props) {
         }
 
         if (props.onMyProfile) {
-            if (e.answer === '') {
+            if (e.answer === "") {
                 return <Card key={e._id} >
                     <Card.Content>
                         <Card.Header>
-                            <Link to={getPath(e.author)} className="questions-author" > <strong> <em> {author} </em> </strong> </Link>
+                            <Link to={getPath(e.author)} onClick={props.setQuestions} className="questions-author" > <strong> <em> {author} </em> </strong> </Link>
                             &nbsp; chiede :
                         </Card.Header>
                         <Card.Meta>
@@ -99,11 +100,11 @@ function Questions(props) {
             }
         }
 
-        if (e.answer === '') {
+        if (e.answer === "") {
             return <Card key={e._id} >
                 <Card.Content>
                     <Card.Header>
-                        <Link to={getPath(e.author)} className="questions-author" > <strong> <em> {author} </em> </strong> </Link>
+                        <Link to={getPath(e.author)} onClick={props.setQuestions} className="questions-author" > <strong> <em> {author} </em> </strong> </Link>
                         &nbsp; chiede :
                     </Card.Header>
                     <Card.Meta>
@@ -119,7 +120,7 @@ function Questions(props) {
         return <Card key={e._id} >
             <Card.Content>
                 <Card.Header>
-                    <Link to={getPath(e.author)} className="questions-author" > <strong> <em> {author} </em> </strong> </Link>
+                    <Link to={getPath(e.author)} onClick={props.setQuestions} className="questions-author" > <strong> <em> {author} </em> </strong> </Link>
                     &nbsp; chiede :
                 </Card.Header>
                 <Card.Meta>

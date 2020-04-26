@@ -17,6 +17,10 @@ function Profile() {
         getQuestionsUser(username).then((res) => setQuestions(res))
     }, [username]);
 
+    const resetState = () => {
+        setQuestions([])
+    }
+
 
     const sign = (getItem('sign') === "true")
 
@@ -44,11 +48,12 @@ function Profile() {
                 <Menu />
                 <Container align='center'>
                     <Header as="h2" className="profile-title" color="red"> Benvenuto nel tuo profilo {name}, queste sono le ultime domande che hai ricevuto </Header>
-                    <Questions questions={questions} onHome={false} onMyProfile={true} doAnswer={doAnswer} />
+                    <Questions questions={questions} onHome={false} onMyProfile={true} doAnswer={doAnswer} setQuestions={resetState} />
                 </Container>
             </Container>
         )
     }
+
 
     return (
         <Container>
@@ -69,7 +74,7 @@ function Profile() {
                 </Container>
             </Container>
             <Container align='center'>
-                <Questions questions={questions} onHome={false} onMyProfile={false} />
+                <Questions questions={questions} onHome={false} onMyProfile={false} setQuestions={resetState} />
             </Container>
         </Container>
     )
