@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Container } from 'semantic-ui-react';
+import { Container, Header } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom'
 import { getItem } from '../Utils/StorageHelper';
-import { getAllQuestions, refreshToken } from '../Utils/Api'
+import { getAllQuestions, checkToken } from '../Utils/Api'
 import Menu from './Menu'
 import Questions from './Questions'
 
@@ -16,7 +16,7 @@ function Dashboard() {
         if (!sign)
             return
 
-        refreshToken().then(() => getAllQuestions()).then((res) => setQuestions(res))
+        checkToken().then(() => getAllQuestions()).then((res) => setQuestions(res))
 
     }, []);
 
@@ -30,7 +30,8 @@ function Dashboard() {
         <Container>
             <Menu />
             <Container align='center'>
-                <Questions questions={questions} />
+                <Header as="h1" color="red" > Benvenuto in Ask.fm, vedi gli ultimi messaggi </Header>
+                <Questions questions={questions} onHome={true} />
             </Container>
         </Container>
     )

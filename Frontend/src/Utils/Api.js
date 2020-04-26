@@ -52,7 +52,7 @@ export async function getQuestionsUser(username) {
     return result.data.questions
 }
 
-export async function refreshToken() {
+export async function checkToken() {
 
     const check = await fetch("https://ask-auth.now.sh/authentication", {
         method: 'GET',
@@ -63,10 +63,10 @@ export async function refreshToken() {
         }
     }).then(res => res.json())
 
-    if (check.ok){
-        return 
+    if (check.ok) {
+        return
     }
-        
+
     const result = await fetch(`https://ask-auth.now.sh/users/${getItem('username')}`, {
         method: 'POST',
         headers: {
@@ -77,5 +77,19 @@ export async function refreshToken() {
     }).then((res) => res.json())
 
     setItem('token', result.data.token)
+}
+
+export async function updateQuestion(id, answer) {
+    const result = await fetch(`https://ask-question.now.sh/questions/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'x-access-token': getItem('token')
+        },
+        body: JSON.stringify({ answer: answer })
+    }).then((res) => res.json())
+
+    return result
 }
 
