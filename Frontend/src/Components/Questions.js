@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Card, Button, Form, Header } from 'semantic-ui-react'
+import { Card, Button, Form } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import './Css/Questions.css'
 
@@ -15,7 +15,7 @@ function Questions(props) {
     const doAnswer = (event, id) => {
         event.preventDefault()
 
-        if (answer.current.value == "") {
+        if (answer.current.value === "") {
             setErrorAnswer('Inserisci la risposta')
             return
         }

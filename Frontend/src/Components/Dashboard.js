@@ -18,7 +18,7 @@ function Dashboard() {
 
         checkToken().then(() => getAllQuestions()).then((res) => setQuestions(res))
 
-    }, []);
+    }, [sign]);
 
     if (!sign) {
         return (
@@ -30,7 +30,7 @@ function Dashboard() {
         <Container>
             <Menu />
             <Container align='center'>
-                <Header as="h1" color="red" > Benvenuto in Ask.fm, vedi gli ultimi messaggi </Header>
+                <Header as="h1" color="red" > Benvenuto in Ask.fm, ecco le ultime domande </Header>
                 <Questions questions={questions} onHome={true} />
             </Container>
         </Container>

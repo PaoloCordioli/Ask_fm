@@ -26,8 +26,8 @@ function Home() {
                     <div className="text"> Curioso? <b> Allora chiedi!! </b> </div>
                     <div className="text"> <b> Apertamente o in modo anonimo. </b> </div> <br></br>
                     <Button.Group vertical >
-                        <Button size="medium" color="violet" as={Link} to="/signUp" > Sign Up </Button> <br></br>
-                        <Button size="medium" color="youtube" as={Link} to="/signIn"> Login </Button>
+                        <Button size="medium" color="violet" as={Link} to="/signUp" > Registrati </Button> <br></br>
+                        <Button size="medium" color="youtube" as={Link} to="/signIn"> Accedi </Button>
                     </Button.Group>
                 </div>
             </div>
