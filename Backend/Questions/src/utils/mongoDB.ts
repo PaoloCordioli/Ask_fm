@@ -27,8 +27,8 @@ export class MongoDB {
         return questions
     }
 
-    public add_question(question: object): void {
-        this.collection.insertOne(question)
+    public add_question(question: string, author: string, username: string, date: string): void {
+        this.collection.insertOne({ question, author, username, date, answer : ""})
     }
 
     public async get_questions_by_username(username: string): Promise<any> {

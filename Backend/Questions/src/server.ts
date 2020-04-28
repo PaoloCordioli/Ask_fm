@@ -87,9 +87,9 @@ server.post('/questions', async (req, res) => { //crea una domanda
         return
     }
 
-    const { question } = req.body
+    const { question, author, username, date } = req.body
     const database = await MongoDB.get_instance()
-    database.add_question(question)
+    database.add_question(question, author, username, date)
 
     res.status(200).send({
         ok: true,
@@ -111,8 +111,8 @@ server.put('/questions/:id', async (req, res) => { // aggiunge la risposta ad un
         return
     }
 
-    const {answer} = req.body
-    const id =  req.params.id
+    const { answer } = req.body
+    const id = req.params.id
 
     const database = await MongoDB.get_instance()
     database.update(id, answer)
