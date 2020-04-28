@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Redirect } from 'react-router-dom'
-import { Container, Button, Form, Checkbox, Header } from 'semantic-ui-react';
+import { Container, Header } from 'semantic-ui-react';
 import { getItem } from '../Utils/StorageHelper'
-import { getQuestionsUser, updateQuestion } from '../Utils/Api';
+import { getQuestionsUser } from '../Utils/Api';
 import Menu from './Menu'
 import Questions from './Questions'
+import AddQuestion from './AddQuestion'
 import './Css/Profile.css'
 
 function Profile() {
@@ -21,13 +22,8 @@ function Profile() {
         setQuestions([])
     }
 
-
-    const sign = (getItem('sign') === "true")
-
-    if (!sign) {
-        return (
-            <Redirect to="/" />
-        )
+    const updateQuestion = () => {
+        getQuestionsUser(username).then((res) => setQuestions(res))
     }
 
     const doAnswer = async (id, answer) => {
@@ -38,6 +34,14 @@ function Profile() {
             getQuestionsUser(username).then((res) => setQuestions(res))
         }
 
+    }
+
+    const sign = (getItem('sign') === "true")
+
+    if (!sign) {
+        return (
+            <Redirect to="/" />
+        )
     }
 
     const name = username.charAt(0).toUpperCase() + username.substring(1)
@@ -59,19 +63,8 @@ function Profile() {
         <Container>
             <Menu />
             <Container>
-                <Container>
-                    <Header as="h2" className="profile-title" color="red">Benvenuto nel profilo di {name}, queste sono le ultime domande che ha ricevuto </Header>
-                    <Form className="profile-form">
-                        <Form.Field>
-                            <h3>Fai una domanda a {name} </h3>
-                            <input placeholder='Question' />
-                        </Form.Field>
-                        <Form.Field>
-                            <Checkbox label='In forma anonima' />
-                        </Form.Field>
-                        <Button type='submit' color='youtube'>Chiedi </Button>
-                    </Form>
-                </Container>
+                <Header as="h2" className="profile-title" color="red">Benvenuto nel profilo di {name}, queste sono le ultime domande che ha ricevuto </Header>
+                <AddQuestion updateQuestion={updateQuestion} name={name} username={username} />
             </Container>
             <Container align='center'>
                 <Questions questions={questions} onHome={false} onMyProfile={false} setQuestions={resetState} />

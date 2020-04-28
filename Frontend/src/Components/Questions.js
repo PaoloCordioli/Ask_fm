@@ -16,16 +16,12 @@ function Questions(props) {
     const doAnswer = (event, id) => {
         event.preventDefault()
 
-        if (answer.current.value === "") {
+        if (!answer.current.value) {
             setErrorAnswer('Inserisci la risposta')
             return
         }
 
         props.doAnswer(id, answer.current.value)
-        setErrorAnswer('')
-    }
-
-    const removeError = () => {
         setErrorAnswer('')
     }
 
@@ -89,7 +85,7 @@ function Questions(props) {
                             <Form>
                                 <Form.Field>
                                     <label> Rispondi : </label>
-                                    <input placeholder='Risposta' ref={answer} onFocus={removeError} />
+                                    <input placeholder='Risposta' ref={answer} onFocus={() => setErrorAnswer("")} />
                                     <label>{errorAnswer}</label>
                                 </Form.Field>
                                 <Button type='submit' color='youtube' onClick={(event) => { doAnswer(event, e._id) }} > Rispondi </Button>

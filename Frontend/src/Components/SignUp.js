@@ -9,6 +9,7 @@ import './Css/SignUp.css'
 function SignUp() {
 
     const [error, setError] = useState("")
+    
     const username = useRef("")
     const password = useRef("")
     const rePassword = useRef("")
@@ -18,7 +19,7 @@ function SignUp() {
     const signUp = async (event) => {
         event.preventDefault()
 
-        if (username.current.value === "" || password.current.value === "" || rePassword.current.value === "") {
+        if (!username.current.value  || !password.current.value || !rePassword.current.value ) {
             setError("Inserisci tutti i campi!")
             return
         }

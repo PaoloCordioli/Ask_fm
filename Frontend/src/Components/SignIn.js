@@ -18,7 +18,7 @@ function SignIn() {
     const signIn = async (event) => {
         event.preventDefault()
 
-        if (username.current.value === "" || password.current.value === "") {
+        if (!username.current.value || !password.current.value ) {
             setError("Inserisci tutti i campi!")
             return
         }

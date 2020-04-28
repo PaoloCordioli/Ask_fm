@@ -93,3 +93,18 @@ export async function updateQuestion(id, answer) {
     return result
 }
 
+export async function addQuestion(question, author, username, date) {
+
+    const result = await fetch('https://ask-question.now.sh/questions', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'x-access-token': getItem('token'),
+        },
+        body: JSON.stringify({ username: username, author: author, question: question, date: date })
+    }).then((res) => res.json())
+
+    return result
+}
+
