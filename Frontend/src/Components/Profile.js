@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Redirect } from 'react-router-dom'
-import { Container, Header } from 'semantic-ui-react';
+import { Container, Header, Pagination } from 'semantic-ui-react';
 import { getItem } from '../Utils/StorageHelper'
-import { getQuestionsUser } from '../Utils/Api';
+import { getQuestionsUser, updateQuestion } from '../Utils/Api';
 import Menu from './Menu'
 import Questions from './Questions'
 import AddQuestion from './AddQuestion'
@@ -13,16 +13,29 @@ function Profile() {
     const { username } = useParams();
 
     const [questions, setQuestions] = useState([])
+    const [activePage, setActivePage] = useState(1)
+    const [activeQuestions, setActiveQuestions] = useState([])
 
     useEffect(() => {
-        getQuestionsUser(username).then((res) => setQuestions(res))
-    }, [username]);
+        getQuestionsUser(username)
+            .then((res) => {
+                setQuestions(res)
+
+                const length = activePage * 4 - 4 
+                const quest = res.slice(length, length + 4)
+                setActiveQuestions(quest)
+            })
+    }, [username, activePage]);
+
+    const onPageChange = (event, { activePage }) => {
+        setActivePage(activePage)
+    }
 
     const resetState = () => {
         setQuestions([])
     }
 
-    const updateQuestion = () => {
+    const updateQuestions = () => {
         getQuestionsUser(username).then((res) => setQuestions(res))
     }
 
@@ -31,9 +44,8 @@ function Profile() {
         const response = await updateQuestion(id, answer)
 
         if (response.ok) {
-            getQuestionsUser(username).then((res) => setQuestions(res))
+            updateQuestions()
         }
-
     }
 
     const sign = (getItem('sign') === "true")
@@ -52,7 +64,16 @@ function Profile() {
                 <Menu />
                 <Container align='center'>
                     <Header as="h2" className="profile-title" color="red"> Benvenuto nel tuo profilo {name}, queste sono le ultime domande che hai ricevuto </Header>
-                    <Questions questions={questions} onHome={false} onMyProfile={true} doAnswer={doAnswer} setQuestions={resetState} />
+                    <Questions questions={activeQuestions} onHome={false} onMyProfile={true} doAnswer={doAnswer} setQuestions={resetState} />
+                    <Pagination
+                        defaultActivePage={activePage}
+                        firstItem={null}
+                        lastItem={null}
+                        pointing
+                        secondary
+                        totalPages={Math.ceil(questions.length / 4)}
+                        onPageChange={onPageChange}
+                    />
                 </Container>
             </Container>
         )
@@ -64,10 +85,19 @@ function Profile() {
             <Menu />
             <Container>
                 <Header as="h2" className="profile-title" color="red">Benvenuto nel profilo di {name}, queste sono le ultime domande che ha ricevuto </Header>
-                <AddQuestion updateQuestion={updateQuestion} name={name} username={username} />
+                <AddQuestion updateQuestion={updateQuestions} name={name} username={username} />
             </Container>
             <Container align='center'>
-                <Questions questions={questions} onHome={false} onMyProfile={false} setQuestions={resetState} />
+                <Questions questions={activeQuestions} onHome={false} onMyProfile={false} setQuestions={resetState} />
+                <Pagination
+                    defaultActivePage={activePage}
+                    firstItem={null}
+                    lastItem={null}
+                    pointing
+                    secondary
+                    totalPages={Math.ceil(questions.length / 3)}
+                    onPageChange={onPageChange}
+                />
             </Container>
         </Container>
     )

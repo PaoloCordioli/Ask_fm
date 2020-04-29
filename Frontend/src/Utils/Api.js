@@ -53,7 +53,6 @@ export async function getQuestionsUser(username) {
 }
 
 export async function checkToken() {
-
     const check = await fetch("https://ask-auth.now.sh/authentication", {
         method: 'GET',
         headers: {
@@ -94,7 +93,6 @@ export async function updateQuestion(id, answer) {
 }
 
 export async function addQuestion(question, author, username, date) {
-
     const result = await fetch('https://ask-question.now.sh/questions', {
         method: 'POST',
         headers: {
