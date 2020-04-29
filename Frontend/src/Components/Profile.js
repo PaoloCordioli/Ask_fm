@@ -32,7 +32,7 @@ function Profile() {
     }
 
     const resetState = () => {
-        setQuestions([])
+        setActiveQuestions([])
     }
 
     const updateQuestions = () => {
